@@ -1,38 +1,71 @@
 .App {
-  text-align: center;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background: #414a4c;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.container {
+    padding: 25px;
+    border: 2px solid blue;
+    border-radius: 10px;
+    margin-right: 50px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.viewingBoard {
+    width: 400px;
+    height: 250px;
+    border-radius: 12px;
+    border: 2px solid blue;
+    padding: 25px;
+    margin-bottom: 25px;;
+    font-size: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-around;
+}
+.viewingBoard p {
+    align-self: center;
+}
+.viewingBoard span {
+    align-self: center;
+}
+.setValue {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 30px;
+}
+.setValue input {
+    border-radius: 10px;
+    width: 120px;
+    height: 40px;
+    text-align: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.buttonsBlock {
+    padding: 25px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border: 2px solid blue;
+    border-radius: 10px;
 }
 
-.App-link {
-  color: #61dafb;
+.buttonsBlock button {
+    height: 60px;
+    width: 150px;
+    border-radius: 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.value {
+    font-size: 80px;
+}
+.info {
+    display: flex;
+    flex-direction: column;
 }
