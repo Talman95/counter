@@ -3,7 +3,7 @@ import React, {FC} from 'react';
 type DisplayPropsType = {
     value: number
     editMode: boolean
-    valueError: boolean
+    comparisonError: boolean
     error: boolean
     incrementCount: () => void
     resetCount: () => void
@@ -12,7 +12,7 @@ type DisplayPropsType = {
 export const Display: FC<DisplayPropsType> = (
     {
         value, editMode,
-        valueError, error,
+        comparisonError, error,
         incrementCount, resetCount
     }
 ) => {
@@ -21,7 +21,7 @@ export const Display: FC<DisplayPropsType> = (
             {editMode
                 ?
                 <div className={"viewingBoard"}>
-                    {valueError
+                    {comparisonError
                         ?
                         <div className={"info"}>
                             <p>INCORRECT VALUE</p>

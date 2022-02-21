@@ -1,16 +1,32 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
-import {ControlUnit} from "./ControlUnit";
+import {Controller} from "./Controller";
 import {Display} from "./Display";
 
 function App() {
+    // state of Controller
     const [startValue, setStartValue] = useState(0)
     const [maxValue, setMaxValue] = useState(5)
-    const [editMode, setEditMode] = useState(false)
-    const [valueError, setValueError] = useState(false)
+    const [editMode, setEditMode] = useState(false) // режим установки начального и максимального значений
+    const [comparisonError, setComparisonError] = useState(false) // ошибка при сравнении начального и максимального значений
 
+    // state of Display
     const [value, setValue] = useState(startValue)
-    const [error, setError] = useState(false)
+    const [error, setError] = useState(false) // ошибка при достижении счетчиком максимального значения
+
+    useEffect(() => {
+        getStartValueFromLocalStorage()
+        getMaxValueFromLocalStorage()
+    }, [])
+
+    useEffect(() => {
+        setValue(startValue)
+    }, [startValue])
+
+    // При изменении начального и масимального значений отправить их в LocalStorage
+    // useEffect(() => {
+    //     setToLocalStorage()
+    // }, [startValue, maxValue])
 
     const incrementCount = () => {
         const newValue = value + 1
@@ -26,15 +42,20 @@ function App() {
     const onSetStartValue = (newValue: number) => {
         setStartValue(newValue)
         if (newValue >= maxValue) {
-            setValueError(true)
-        } else setValueError(false)
+            (!comparisonError) && setComparisonError(true)
+        } else {
+            comparisonError && setComparisonError(false)
+        }
     }
     const onSetMaxValue = (newValue: number) => {
         setMaxValue(newValue)
         if (newValue <= startValue) {
-            setValueError(true)
-        } else setValueError(false)
+            (!comparisonError) && setComparisonError(true)
+        } else {
+            comparisonError && setComparisonError(false)
+        }
     }
+    //
     const onSetValue = () => {
         resetCount()
         setEditMode(false)
@@ -48,14 +69,15 @@ function App() {
         localStorage.setItem('startValue', JSON.stringify(startValue))
         localStorage.setItem('maxValue', JSON.stringify(maxValue))
     }
-    const getFromLocalStorage = () => {
+    const getStartValueFromLocalStorage = () => {
         const startValueAsString = localStorage.getItem('startValue')
-        const maxValueAsString = localStorage.getItem('maxValue')
-
         if (startValueAsString) {
             let startValue = JSON.parse(startValueAsString)
             setStartValue(startValue)
         }
+    }
+    const getMaxValueFromLocalStorage = () => {
+        const maxValueAsString = localStorage.getItem('maxValue')
         if (maxValueAsString) {
             let maxValue = JSON.parse(maxValueAsString)
             setMaxValue(maxValue)
@@ -65,22 +87,21 @@ function App() {
     return (
         <div className={'App'}>
 
-            <ControlUnit
+            <Controller
                 startValue={startValue}
                 maxValue={maxValue}
-                valueError={valueError}
+                comparisonError={comparisonError}
                 setStartValue={onSetStartValue}
                 setMaxValue={onSetMaxValue}
                 onEditMode={onEditMode}
                 setValue={onSetValue}
                 setToLocalStorage={setToLocalStorage}
-                getFromLocalStorage={getFromLocalStorage}
             />
 
             <Display
                 value={value}
                 editMode={editMode}
-                valueError={valueError}
+                comparisonError={comparisonError}
                 error={error}
                 incrementCount={incrementCount}
                 resetCount={resetCount}

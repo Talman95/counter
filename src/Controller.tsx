@@ -1,22 +1,21 @@
 import React, {ChangeEvent, FC} from 'react';
 
-type ControlUnitPropsType = {
+type ControllerPropsType = {
     startValue: number
     maxValue: number
-    valueError: boolean
+    comparisonError: boolean
     setStartValue: (newValue: number) => void
     setMaxValue: (newValue: number) => void
     onEditMode: () => void
     setValue: () => void
     setToLocalStorage: () => void
-    getFromLocalStorage: () => void
 }
 
-export const ControlUnit: FC<ControlUnitPropsType> = (
+export const Controller: FC<ControllerPropsType> = (
     {
-        startValue, maxValue, valueError,
+        startValue, maxValue, comparisonError,
         setStartValue, setMaxValue, onEditMode,
-        setValue, setToLocalStorage, getFromLocalStorage
+        setValue, setToLocalStorage
     }
 ) => {
 
@@ -31,12 +30,8 @@ export const ControlUnit: FC<ControlUnitPropsType> = (
     const onEditModeHandler = () => {
         onEditMode()
     }
-    const onSetToLocalStorage = () => {
+    const onSetValuesCounter = () => {
         setToLocalStorage()
-        setValue()
-    }
-    const onGetFromLocalStorage = () => {
-        getFromLocalStorage()
         setValue()
     }
 
@@ -64,14 +59,8 @@ export const ControlUnit: FC<ControlUnitPropsType> = (
             </div>
             <div className={'buttonsBlock'}>
                 <button
-                    disabled={valueError}
-                    onClick={onGetFromLocalStorage}
-                >
-                    GET
-                </button>
-                <button
-                    disabled={valueError}
-                    onClick={onSetToLocalStorage}
+                    disabled={comparisonError}
+                    onClick={onSetValuesCounter}
                 >
                     SET
                 </button>
