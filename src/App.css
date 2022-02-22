@@ -4,13 +4,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    background: #414a4c;
+    color: blue;
+    background: lightgray;
 }
 
 .container {
     padding: 25px;
-    border: 2px solid blue;
+    border: 1px solid mediumblue;
     border-radius: 10px;
     margin-right: 50px;
 }
@@ -19,7 +19,7 @@
     width: 400px;
     height: 250px;
     border-radius: 12px;
-    border: 2px solid blue;
+    border: 1px solid mediumblue;
     padding: 25px;
     margin-bottom: 25px;;
     font-size: 40px;
@@ -28,18 +28,22 @@
     align-items: stretch;
     justify-content: space-around;
 }
+
 .viewingBoard p {
     align-self: center;
 }
+
 .viewingBoard span {
     align-self: center;
 }
+
 .setValue {
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 30px;
 }
+
 .setValue input {
     border-radius: 10px;
     width: 120px;
@@ -52,7 +56,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    border: 2px solid blue;
+    border: 1px solid mediumblue;
     border-radius: 10px;
 }
 
@@ -65,7 +69,17 @@
 .value {
     font-size: 80px;
 }
+
 .info {
     display: flex;
     flex-direction: column;
+}
+
+.error {
+    color: red
+}
+
+.errorValue {
+    color: red;
+    font-size: 80px;
 }

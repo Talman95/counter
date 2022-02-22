@@ -1,4 +1,6 @@
 import React, {ChangeEvent, FC} from 'react';
+import Button from "@material-ui/core/Button";
+import TextField from '@material-ui/core/TextField';
 
 type ControllerPropsType = {
     startValue: number
@@ -36,34 +38,51 @@ export const Controller: FC<ControllerPropsType> = (
     }
 
     return (
-        <div className={'container'}>
-            <div className={'viewingBoard'}>
-                <div className={'setValue'}>
+        <div className={"container"}>
+            <div className={"viewingBoard"}>
+                <div className={"setValue"}>
                     <span>MAX VALUE:</span>
-                    <input
+                    <TextField
+                        label={"Max Value"}
                         type={"number"}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant={"outlined"}
                         value={maxValue}
                         onChange={onSetMaxValue}
                         onFocus={onEditModeHandler}
+                        error={comparisonError}
+                        helperText={comparisonError && "Incorrect number"}
                     />
                 </div>
-                <div className={'setValue'}>
+                <div className={"setValue"}>
                     <span>START VALUE:</span>
-                    <input
+                    <TextField
+                        label={"Start value"}
                         type={"number"}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                        variant={"outlined"}
                         value={startValue}
                         onChange={onSetStartValue}
                         onFocus={onEditModeHandler}
+                        error={comparisonError}
+                        helperText={comparisonError && "Incorrect number"}
                     />
                 </div>
             </div>
-            <div className={'buttonsBlock'}>
-                <button
-                    disabled={comparisonError}
+            <div className={"buttonsBlock"}>
+                <Button
+                    variant={"contained"}
+                    color={"primary"}
                     onClick={onSetValuesCounter}
+                    disabled={comparisonError}
+                    size={"large"}
                 >
                     SET
-                </button>
+                </Button>
             </div>
         </div>
     );

@@ -106,6 +106,7 @@ function App() {
                 incrementCount={incrementCount}
                 resetCount={resetCount}
             />
+
         </div>
     );
 }

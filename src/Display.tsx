@@ -1,4 +1,6 @@
 import React, {FC} from 'react';
+import Button from '@material-ui/core/Button';
+import PlusOneIcon from '@material-ui/icons/PlusOne';
 
 type DisplayPropsType = {
     value: number
@@ -17,14 +19,14 @@ export const Display: FC<DisplayPropsType> = (
     }
 ) => {
     return (
-        <div className={'container'}>
+        <div className={"container"}>
             {editMode
                 ?
                 <div className={"viewingBoard"}>
                     {comparisonError
                         ?
                         <div className={"info"}>
-                            <p>INCORRECT VALUE</p>
+                            <p className={"error"}>INCORRECT VALUE</p>
                         </div>
 
                         :
@@ -35,32 +37,39 @@ export const Display: FC<DisplayPropsType> = (
                     }
                 </div>
                 :
-                <div className={'viewingBoard'}>
+                <div className={"viewingBoard"}>
                     {error
                         ?
-                        <p>TRY IT AGAIN!</p>
+                        <p className={"error"}>TRY IT AGAIN!</p>
                         :
                         <p>CLICK ME!</p>
                     }
-                    <span className={'value'}>
+                    <span className={error ? "errorValue" : "value"}>
                             {value}
                         </span>
                 </div>
             }
 
-            <div className={'buttonsBlock'}>
-                <button
+            <div className={"buttonsBlock"}>
+                <Button
+                    variant={"contained"}
+                    color={"primary"}
                     onClick={incrementCount}
                     disabled={error || editMode}
+                    endIcon={<PlusOneIcon/>}
+                    size={"large"}
                 >
                     INC
-                </button>
-                <button
+                </Button>
+                <Button
+                    variant={"contained"}
+                    color={"primary"}
                     onClick={resetCount}
                     disabled={editMode}
+                    size={"large"}
                 >
                     RESET
-                </button>
+                </Button>
             </div>
         </div>
     );
