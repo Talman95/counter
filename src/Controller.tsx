@@ -9,15 +9,14 @@ type ControllerPropsType = {
     setStartValue: (newValue: number) => void
     setMaxValue: (newValue: number) => void
     onEditMode: () => void
-    setValue: () => void
-    setToLocalStorage: () => void
+    onSetValuesCounter: () => void
 }
 
 export const Controller: FC<ControllerPropsType> = (
     {
         startValue, maxValue, comparisonError,
         setStartValue, setMaxValue, onEditMode,
-        setValue, setToLocalStorage
+        onSetValuesCounter
     }
 ) => {
 
@@ -31,10 +30,6 @@ export const Controller: FC<ControllerPropsType> = (
     }
     const onEditModeHandler = () => {
         onEditMode()
-    }
-    const onSetValuesCounter = () => {
-        setToLocalStorage()
-        setValue()
     }
 
     return (

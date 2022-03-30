@@ -23,11 +23,6 @@ function App() {
         setValue(startValue)
     }, [startValue])
 
-    // При изменении начального и масимального значений отправить их в LocalStorage
-    // useEffect(() => {
-    //     setToLocalStorage()
-    // }, [startValue, maxValue])
-
     const incrementCount = () => {
         const newValue = value + 1
         if (newValue === maxValue) {
@@ -35,10 +30,12 @@ function App() {
         }
         setValue(newValue)
     }
+
     const resetCount = () => {
         setValue(startValue)
         error && setError(false)
     }
+
     const onSetStartValue = (newValue: number) => {
         setStartValue(newValue)
         if (newValue >= maxValue) {
@@ -47,6 +44,7 @@ function App() {
             comparisonError && setComparisonError(false)
         }
     }
+
     const onSetMaxValue = (newValue: number) => {
         setMaxValue(newValue)
         if (newValue <= startValue) {
@@ -55,13 +53,19 @@ function App() {
             comparisonError && setComparisonError(false)
         }
     }
-    //
+
     const onSetValue = () => {
         resetCount()
         setEditMode(false)
     }
+
     const onEditMode = () => {
         setEditMode(true)
+    }
+
+    const onSetValuesCounter = () => {
+        setToLocalStorage()
+        onSetValue()
     }
 
     // Local Storage
@@ -94,8 +98,7 @@ function App() {
                 setStartValue={onSetStartValue}
                 setMaxValue={onSetMaxValue}
                 onEditMode={onEditMode}
-                setValue={onSetValue}
-                setToLocalStorage={setToLocalStorage}
+                onSetValuesCounter={onSetValuesCounter}
             />
 
             <Display
