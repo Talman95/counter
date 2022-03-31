@@ -1,29 +1,41 @@
 import React, {FC} from 'react';
 import Button from '@material-ui/core/Button';
 import PlusOneIcon from '@material-ui/icons/PlusOne';
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "./redux/store";
+import {CounterActionTypes, CounterStateType, incrementCount, resetCount, setError} from "./redux/counterReducer";
+import {Dispatch} from "redux";
 
-type DisplayPropsType = {
-    value: number
-    editMode: boolean
-    comparisonError: boolean
-    error: boolean
-    incrementCount: () => void
-    resetCount: () => void
-}
+export const Display: FC = () => {
 
-export const Display: FC<DisplayPropsType> = (
-    {
-        value, editMode,
-        comparisonError, error,
-        incrementCount, resetCount
+    const {
+        currentValue,
+        maxValue,
+        isEditMode,
+        isComparisonError,
+        isError,
+    } = useSelector<AppStateType, CounterStateType>(state => state.counter)
+
+    const dispatch = useDispatch<Dispatch<CounterActionTypes>>()
+
+    const onIncrementCount = () => {
+        dispatch(incrementCount())
+        if (currentValue + 1 === maxValue) {
+            dispatch(setError(true))
+        }
     }
-) => {
+    const onResetCount = () => {
+        dispatch(resetCount())
+        isError && dispatch(setError(false))
+    }
+
+
     return (
         <div className={"container"}>
-            {editMode
+            {isEditMode
                 ?
                 <div className={"viewingBoard"}>
-                    {comparisonError
+                    {isComparisonError
                         ?
                         <div className={"info"}>
                             <p className={"error"}>INCORRECT VALUE</p>
@@ -38,14 +50,14 @@ export const Display: FC<DisplayPropsType> = (
                 </div>
                 :
                 <div className={"viewingBoard"}>
-                    {error
+                    {isError
                         ?
                         <p className={"error"}>TRY IT AGAIN!</p>
                         :
                         <p>CLICK ME!</p>
                     }
-                    <span className={error ? "errorValue" : "value"}>
-                            {value}
+                    <span className={isError ? "errorValue" : "value"}>
+                            {currentValue}
                         </span>
                 </div>
             }
@@ -54,8 +66,8 @@ export const Display: FC<DisplayPropsType> = (
                 <Button
                     variant={"contained"}
                     color={"primary"}
-                    onClick={incrementCount}
-                    disabled={error || editMode}
+                    onClick={onIncrementCount}
+                    disabled={isError || isEditMode}
                     endIcon={<PlusOneIcon/>}
                     size={"large"}
                 >
@@ -64,8 +76,8 @@ export const Display: FC<DisplayPropsType> = (
                 <Button
                     variant={"contained"}
                     color={"primary"}
-                    onClick={resetCount}
-                    disabled={editMode}
+                    onClick={onResetCount}
+                    disabled={isEditMode}
                     size={"large"}
                 >
                     RESET

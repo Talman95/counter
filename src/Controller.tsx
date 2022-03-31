@@ -1,35 +1,54 @@
 import React, {ChangeEvent, FC} from 'react';
 import Button from "@material-ui/core/Button";
 import TextField from '@material-ui/core/TextField';
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "./redux/store";
+import {
+    CounterActionTypes,
+    CounterStateType,
+    setComparisonError, setEditMode, setError,
+    setMaxValue,
+    setStartValue
+} from "./redux/counterReducer";
+import {Dispatch} from 'redux';
 
-type ControllerPropsType = {
-    startValue: number
-    maxValue: number
-    comparisonError: boolean
-    setStartValue: (newValue: number) => void
-    setMaxValue: (newValue: number) => void
-    onEditMode: () => void
-    onSetValuesCounter: () => void
-}
+export const Controller: FC = () => {
 
-export const Controller: FC<ControllerPropsType> = (
-    {
-        startValue, maxValue, comparisonError,
-        setStartValue, setMaxValue, onEditMode,
-        onSetValuesCounter
-    }
-) => {
+    const {
+        startValue,
+        maxValue,
+        isComparisonError
+    } = useSelector<AppStateType, CounterStateType>(state => state.counter)
 
+    const dispatch = useDispatch<Dispatch<CounterActionTypes>>()
+
+    // Установить начальное и максимальное значение
     const onSetStartValue = (e: ChangeEvent<HTMLInputElement>) => {
         const newValue = Number(e.currentTarget.value)
-        setStartValue(newValue)
+        dispatch(setStartValue(newValue))
+        if (newValue >= maxValue) {
+            dispatch(setComparisonError(true))
+        } else {
+            dispatch(setComparisonError(false))
+        }
     }
     const onSetMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
         const newValue = Number(e.currentTarget.value)
-        setMaxValue(newValue)
+        dispatch(setMaxValue(newValue))
+        if (newValue <= startValue) {
+            dispatch(setComparisonError(true))
+        } else {
+            dispatch(setComparisonError(false))
+        }
     }
-    const onEditModeHandler = () => {
-        onEditMode()
+
+    // Вход и выход для режима редактирования начального и максимального значения
+    const onEditMode = () => {
+        dispatch(setEditMode(true))
+    }
+    const offEditMode = () => {
+        dispatch(setEditMode(false))
+        dispatch(setError(false))
     }
 
     return (
@@ -46,9 +65,9 @@ export const Controller: FC<ControllerPropsType> = (
                         variant={"outlined"}
                         value={maxValue}
                         onChange={onSetMaxValue}
-                        onFocus={onEditModeHandler}
-                        error={comparisonError}
-                        helperText={comparisonError && "Incorrect number"}
+                        onFocus={onEditMode}
+                        error={isComparisonError}
+                        helperText={isComparisonError && "Incorrect number"}
                     />
                 </div>
                 <div className={"setValue"}>
@@ -62,9 +81,9 @@ export const Controller: FC<ControllerPropsType> = (
                         variant={"outlined"}
                         value={startValue}
                         onChange={onSetStartValue}
-                        onFocus={onEditModeHandler}
-                        error={comparisonError}
-                        helperText={comparisonError && "Incorrect number"}
+                        onFocus={onEditMode}
+                        error={isComparisonError}
+                        helperText={isComparisonError && "Incorrect number"}
                     />
                 </div>
             </div>
@@ -72,8 +91,8 @@ export const Controller: FC<ControllerPropsType> = (
                 <Button
                     variant={"contained"}
                     color={"primary"}
-                    onClick={onSetValuesCounter}
-                    disabled={comparisonError}
+                    onClick={offEditMode}
+                    disabled={isComparisonError}
                     size={"large"}
                 >
                     SET
